@@ -1,0 +1,46 @@
+/* FILEPATH: /home/shawnzx/Desktop/Repos/classic-db/classic-db/src/NavBar.css */
+
+/* Add your CSS styles here */
+
+.nav-container{
+    display: flex;
+    justify-content: space-between;
+    left: 50px;
+    top: 0px;
+    padding: 0 10%;
+    position: fixed;
+    z-index: 10;
+    width: 92%;
+    box-sizing: border-box;
+}
+
+.nav-link{
+    font-size: 24px;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    color: goldenrod;
+    margin: 50px;
+    float: left;
+    transition: .5s;
+}
+  
+.nav-link:hover {
+    color: lightgray;
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+    
+    
+}
+
+@media (max-width: 768px) {
+
+    .nav-container{
+        position: fixed;
+        left: -50px;
+        top: -50px;
+    }
+    .nav-link {
+        flex-basis: auto;
+        width: 0%;
+        
+    }
+
+}
