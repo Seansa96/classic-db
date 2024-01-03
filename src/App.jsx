@@ -1,35 +1,33 @@
+import React from 'react';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import NavBar from './components/NavBar';
+import Home from './pages/Home';
+import Armory from './pages/Armory';
+import './pages/App.css';
 
-import wowLogo from './assets/WoW_icon.svg'
-import './App.css'
-import NavBar from './NavBar'
-import { Link, Route } from 'react-router-dom'
-import { BrowserRouter as Router } from 'react-router-dom'
 function App() {
-  
+  return (
+    <BrowserRouter>
+      <RoutesWithNavBar />
+    </BrowserRouter>
+  );
+}
+
+function RoutesWithNavBar() {
+  const location = useLocation();
+  const showNavBar = location.pathname !== '/armory';
 
   return (
     <>
-      <Router>
-      <NavBar />
-      <div>
-       
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={wowLogo} className="logo" alt="Vite logo" />
-        </a>
-      </div>
-      <h1>A simple gearing database</h1>
-      <div className="card">
-        <button>
-          Start Gearing
-        </button>
-        
-      </div>
-      <p className="slogan">
-        Just a few clicks away from BIS
-      </p>
-      </Router>
+      {showNavBar && <NavBar />}
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/armory" element={<Armory />} />
+        {/* Other routes can be added here as needed */}
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

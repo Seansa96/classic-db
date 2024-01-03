@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Dashboard = () => {
+const Armory = () => {
     return (
-        <div>
+        <>
             <h1>Dashboard</h1>
             This works!
-        </div>
+        </>
     );
 };
 
-export default Dashboard;
+export default Armory;
