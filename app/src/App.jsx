@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Armory from './pages/Armory';
+import About from './pages/About';
+import Login from './pages/Login';
 import './pages/App.css';
 
 function App() {
@@ -24,6 +26,7 @@ function RoutesWithNavBar() {
         <Route index element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/armory" element={<Armory />} />
+        <Route path="/about" element={<About />} />
         {/* Other routes can be added here as needed */}
       </Routes>
     </>
