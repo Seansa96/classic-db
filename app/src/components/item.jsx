@@ -14,15 +14,17 @@ const item = ({ slot }) => {
         setItemName(e.target.value);
     };
 
-    const handleSubmit = async () => {
-        // Basic frontend validation/sanitization
+    const handleSubmit = async (e) => {
+        e.preventDefault(); 
+
+        
         let url = '';
         let query = itemName.trim();
         if (!query) {
             alert("Please enter an item name or ID.");
             return;
         }
-    
+
         // Check if input is numeric (item ID)
         if (/^\d+$/.test(query)) {
             // Prepare URL with 'itemid' as a parameter
@@ -40,7 +42,7 @@ const item = ({ slot }) => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            setItemData(data); 
+            setItemData(data);
         } catch (error) {
             console.error("Fetching error: ", error);
         }
@@ -52,8 +54,10 @@ const item = ({ slot }) => {
         <div className={`item-slot ${slot}`} onClick={handleItemClick}>
             {isEditing ? (
                 <div>
-                    <input type="text" value={itemName} onChange={handleInputChange} />
-                    <button onClick={handleSubmit}>Submit</button>
+                    <form onSubmit={handleSubmit}>
+                        <input type="text" value={itemName} onChange={handleInputChange} />
+                        <button type="submit">Submit</button>
+                    </form>
                 </div>
             ) : itemData ? (
                 <div>

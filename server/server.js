@@ -8,6 +8,7 @@ const core = require('cors')
 const PORT = process.env.PORT || 5000;
 const app = express();
 
+// Classic-db objects
 const items = new Database.Items()
 const professions = new Database.Professions()
 const zones = new Database.Zones()
@@ -17,16 +18,19 @@ const classes = new Database.Classes()
 app.use(core())
 
 
+// Item database API
 app.get('/api/items', (req, res) => {
     const items = new Database.Items();
     const itemId = req.query.itemid;
     const itemName = req.query.name;
+    
 
     if (itemId && validator.isInt(itemId, { min: 1 })) {
         // Find the item with the specified itemId
         const item = items.find(i => i.itemId === parseInt(itemId));
         if (item) {
             res.json(item); // Send the found item
+            
         } else {
             res.status(404).json({ message: 'Item not found' }); // Item not found
         }
@@ -36,6 +40,7 @@ app.get('/api/items', (req, res) => {
         const item = items.find(i => i.name.toLowerCase() === sanitizedItemName);
         if (item) {
             res.json(item); // Send the found item
+            
         } else {
             res.status(404).json({ message: 'Item not found' }); // Item not found
         }
