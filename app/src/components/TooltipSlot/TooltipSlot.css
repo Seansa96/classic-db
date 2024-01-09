@@ -1,0 +1,28 @@
+.tooltip-slot {
+  border: 1px solid #555; /* Adjust the color as needed */
+  background-color: #333; /* Adjust the background color as needed */
+  border-radius: 4px;
+  padding: 5px;
+  margin: 5px;
+  color: white;
+  width: 50px; /* Adjust the width as needed */
+  height: 50px; /* Adjust the height as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-slot-placeholder {
+  width: 40px; /* Adjust to the size of your placeholders */
+  height: 40px; /* Adjust to the size of your placeholders */
+  background-image: url('/plagerism.jpg'); /* Placeholder image */
+  background-size: cover;
+  border: 1px solid #777; /* Placeholder border color */
+  border-radius: 3px;
+}
