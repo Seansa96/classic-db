@@ -4,6 +4,7 @@ const express = require('express')
 require('dotenv').config()
 const validator = require('validator')
 const core = require('cors')
+const cookieParser = require('cookie-parser')
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -16,6 +17,7 @@ const classes = new Database.Classes()
 
 
 app.use(core())
+app.use(cookieParser())
 
 
 // Item database API
