@@ -10,9 +10,8 @@ const Armory = () => {
         <>
             
             <h1>Dashboard</h1>
-             {/* <Item slot="head" />  */}
-            <Tooltiip slot="head" />
-            {/* <Link to="https://www.wowhead.com/item=19019/" target="_blank">Thunderfury, Blessed Blade of the Windseeker</Link> */}
+             <Item slot="Head" /> 
+             <Item slot="Neck" />
         </>
     );
 };

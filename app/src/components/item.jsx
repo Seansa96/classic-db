@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import '../assets/WoW_icon.svg';
+import Gear from './gear';
 
 const item = ({ slot }) => {
     const [itemName, setItemName] = useState('');
@@ -59,14 +61,18 @@ const item = ({ slot }) => {
                         <button type="submit">Submit</button>
                     </form>
                 </div>
-            ) : itemData ? (
-                <div>
-                    <img src={itemData.icon} alt={itemData.name} />
-                    {/* Tooltip logic */}
-                </div>
-            ) : (
-                <span>Select Item</span>
-            )}
+            
+
+                        ) : itemData ? (
+                            <div>
+                                <a href={`https://www.wowhead.com/classic/item=${itemData.itemId}`} target="_blank" rel="noopener noreferrer">
+                                    <img src={itemData.icon} alt={itemData.name} />
+                                </a>
+                                {/* Tooltip logic */}
+                            </div>
+                        ) : (
+                            <span>{slot}</span>
+                        )}
         </div>
     );
 };
