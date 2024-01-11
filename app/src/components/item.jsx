@@ -1,37 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import '../assets/WoW_icon.svg';
 import Gear from './gear';
 
-const item = ({ slot }) => {
-    const [itemName, setItemName] = useState('');
+
+const Item = ({ slot, defaultItem }) => {
+    const [itemName, setItemName] = useState(defaultItem.name || '');
     const [itemData, setItemData] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
-
+  
+    useEffect(() => {
+      if (!itemData && defaultItem) {
+        fetch(`http://localhost:5000/api/items?itemid=${defaultItem.id}`)
+          .then(response => response.json())
+          .then(data => setItemData(data))
+          .catch(error => console.error('Error:', error));
+      }
+    }, [itemData, defaultItem]);
+  
     const handleItemClick = () => {
-        // Logic to handle item slot click
-        setIsEditing(true);
+      setIsEditing(true);
     };
-
+  
     const handleInputChange = (e) => {
-        setItemName(e.target.value);
+      setItemName(e.target.value);
     };
-
+  
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
-
-        
-        let url = '';
-        let query = itemName.trim();
-        if (!query) {
-            alert("Please enter an item name or ID.");
-            return;
-        }
-
-        // Check if input is numeric (item ID)
-        if (/^\d+$/.test(query)) {
-            // Prepare URL with 'itemid' as a parameter
-            url = `http://localhost:5000/api/items?itemid=${query}`;
-        } else if (/^[a-zA-Z\s]+$/.test(query)) {
+      e.preventDefault(); 
+  
+      let url = '';
+      let query = itemName.trim();
+      if (!query) {
+        alert("Please enter an item name or ID.");
+        return;
+      }
+  
+      // Check if input is numeric (item ID)
+      if (/^\d+$/.test(query)) {
+        // Prepare URL with 'itemid' as a parameter
+        url = `http://localhost:5000/api/items?itemid=${query}`;
+      } else if (/^[a-zA-Z\s]+$/.test(query)) {
             // Prepare URL with 'name' as a parameter, if names are allowed
             url = `http://localhost:5000/api/items?name=${encodeURIComponent(query)}`;
         } else {
@@ -77,4 +85,4 @@ const item = ({ slot }) => {
     );
 };
 
-export default item;
+export default Item;
