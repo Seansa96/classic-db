@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import wowLogo from '../assets/WoW_icon.svg';
-import './App.css';
-import './index.css';
+import '../Styles/App.css';
+import '../Styles/index.css';
 
 const Home = () => {
   return (

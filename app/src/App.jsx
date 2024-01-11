@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Armory from './pages/Armory';
 import About from './pages/About';
 import Login from './pages/Login';
-import './pages/App.css';
+import './Styles/App.css';
 
 
 function App() {

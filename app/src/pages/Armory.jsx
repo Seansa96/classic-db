@@ -2,7 +2,7 @@ import React, { useState, useEffect} from "react";
 import Item from "../components/item";
 import Tooltiip from "../components/Tooltip/Tooltip";
 import { Link } from "react-router-dom";
-import "../components/item.css";
+import "../Styles/item.css";
 import "../components/Tooltip/Tooltip.css";
 import defaultItems from "../components/defaultItem";
 
