@@ -7,6 +7,7 @@ import About from './pages/About';
 import Login from './pages/Login';
 import './pages/App.css';
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -29,6 +30,7 @@ function RoutesWithNavBar() {
         <Route path="/about" element={<About />} />
         {/* Other routes can be added here as needed */}
       </Routes>
+      
     </>
   );
 }

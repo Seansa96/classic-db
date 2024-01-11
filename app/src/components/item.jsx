@@ -4,17 +4,26 @@ import Gear from './gear';
 
 
 const Item = ({ slot, defaultItem }) => {
-    const [itemName, setItemName] = useState(defaultItem.name || '');
+    const [itemName, setItemName] = useState(defaultItem ? defaultItem.name : '');
     const [itemData, setItemData] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
   
     useEffect(() => {
-      if (!itemData && defaultItem) {
-        fetch(`http://localhost:5000/api/items?itemid=${defaultItem.id}`)
-          .then(response => response.json())
-          .then(data => setItemData(data))
-          .catch(error => console.error('Error:', error));
-      }
+        if (!itemData && defaultItem && defaultItem.name !== '') {
+            
+            fetch(`http://localhost:5000/api/items?name=${defaultItem.name}`)
+                .then(response => response.json())
+                .then(data => {
+                    setItemData(data);
+                    setIsLoading(false);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    setIsLoading(false);
+                });
+
+        }
     }, [itemData, defaultItem]);
   
     const handleItemClick = () => {
@@ -26,26 +35,24 @@ const Item = ({ slot, defaultItem }) => {
     };
   
     const handleSubmit = async (e) => {
-      e.preventDefault(); 
-  
-      let url = '';
-      let query = itemName.trim();
-      if (!query) {
-        alert("Please enter an item name or ID.");
-        return;
-      }
-  
-      // Check if input is numeric (item ID)
-      if (/^\d+$/.test(query)) {
-        // Prepare URL with 'itemid' as a parameter
-        url = `http://localhost:5000/api/items?itemid=${query}`;
-      } else if (/^[a-zA-Z\s]+$/.test(query)) {
-            // Prepare URL with 'name' as a parameter, if names are allowed
-            url = `http://localhost:5000/api/items?name=${encodeURIComponent(query)}`;
-        } else {
-            alert("That's not quite right. Please enter a valid item name or ID.");
+        e.preventDefault(); 
+
+        let url = '';
+        let query = itemName.trim();
+        if (!query) {
+            alert("Please enter an item name.");
             return;
         }
+
+        // Check if input contains only alphabetical characters and apostrophes
+        if (/^[a-zA-Z\s']+$/g.test(query)) {
+            // Prepare URL with 'name' as a parameter
+            url = `http://localhost:5000/api/items?name=${encodeURIComponent(query)}`;
+        } else {
+            alert("Please enter a valid item name.");
+            return;
+        }
+
         try {
             const response = await fetch(url);
             if (!response.ok) {
@@ -57,6 +64,7 @@ const Item = ({ slot, defaultItem }) => {
             console.error("Fetching error: ", error);
         }
         setIsEditing(false);
+        console.log(itemData.icon);
     };
     
 
@@ -65,16 +73,17 @@ const Item = ({ slot, defaultItem }) => {
             {isEditing ? (
                 <div>
                     <form onSubmit={handleSubmit}>
-                        <input type="text" value={itemName} onChange={handleInputChange} />
+                        <input type="text"  onChange={handleInputChange} />
                         <button type="submit">Submit</button>
                     </form>
                 </div>
-            
+            ) : isLoading ? (
+                <div className="spinner"></div>
 
                         ) : itemData ? (
                             <div>
                                 <a href={`https://www.wowhead.com/classic/item=${itemData.itemId}`} target="_blank" rel="noopener noreferrer">
-                                    <img src={itemData.icon} alt={itemData.name} />
+                                    <img src={itemData && itemData.icon} alt={itemData && itemData.name} />
                                 </a>
                                 {/* Tooltip logic */}
                             </div>

@@ -5,6 +5,7 @@ require('dotenv').config()
 const validator = require('validator')
 const core = require('cors')
 const cookieParser = require('cookie-parser')
+const cookieSession = require('cookie-session')
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -49,6 +50,12 @@ app.get('/api/items', (req, res) => {
     } else {
         res.status(400).json({ message: 'Invalid query parameters' }); // Invalid parameters provided
     }
+});
+
+
+app.get('/set-cookie', (req, res) => {
+    res.cookie('myCookie', 'cookieValue', { maxAge: 900000, secure: true, httpOnly: true });
+    res.send('Cookie set');
 });
 
 
