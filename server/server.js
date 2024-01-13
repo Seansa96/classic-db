@@ -7,11 +7,13 @@ const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 const crypto = require("crypto");
 require("dotenv").config();
-require('crypto').randomBytes(64).toString('hex');
-const { v4: uuidv4 } = require('uuid');
-
+require("crypto").randomBytes(64).toString("hex");
+const { v4: uuidv4 } = require("uuid");
+const { Sequelize } = require("sequelize");
 
 const PORT = process.env.PORT;
+const PG_PWD = process.env.PG_PWD;
+const PG_USER = process.env.PG_USER;
 const app = express();
 
 // Classic-db objects
@@ -20,17 +22,23 @@ const professions = new Database.Professions();
 const zones = new Database.Zones();
 const classes = new Database.Classes();
 
+// DB URI Connection
+const sequelize = new Sequelize(
+  `postgres://${PG_USER}:${PG_PWD}@localhost:5432/classic_db`
+);
 app.use(core());
 app.use(cookieParser());
 app.use(
-    cookieSession({
-        name: "session",
-        keys: [crypto.randomBytes(48).toString('hex'),
-        crypto.randomBytes(48).toString('hex')],
-        maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        secure: false,
-        httpOnly: false,
-    })
+  cookieSession({
+    name: "session",
+    keys: [
+      crypto.randomBytes(48).toString("hex"),
+      crypto.randomBytes(48).toString("hex"),
+    ],
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    secure: false,
+    httpOnly: false,
+  })
 );
 
 // Item database API
@@ -64,12 +72,20 @@ app.get("/api/items", (req, res) => {
 app.get("/set-cookie", (req, res) => {
   const userID = uuidv4();
   req.session.userID = userID;
-  
 
   console.log(res.send("Cookie set"));
   console.log(userID);
-  
-  
 });
 
+// async function testDatabaseConnection() {
+//     try {
+//         console.log(PG_USER, PG_PWD);
+//       await sequelize.authenticate();
+//       console.log('Connection has been established successfully.');
+//     } catch (error) {
+//       console.error('Unable to connect to the database:', error);
+//     }
+//   }
+  
+//   testDatabaseConnection();
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
