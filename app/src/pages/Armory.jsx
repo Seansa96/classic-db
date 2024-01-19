@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import "../Styles/item.css";
 import "../components/Tooltip/Tooltip.css";
 import defaultItems from "../components/defaultItem";
+import "../Styles/Armory.css";
 
 
 
@@ -31,17 +32,15 @@ const Armory = () => {
     fetchDefaultItems();
   }, []);
 
-  return (
-    <div>
-      <h1>Gear Loadout</h1>
   
-
-    <div className="armory">
-      {Object.keys(defaultItems).map(slot => (
-        <Item key={slot} slot={slot} defaultItem={defaultItemData[slot]} />
+  return (
+    
+    <div className="item-container">
+      {Object.keys(defaultItems).map((slot, index) => (
+        <Item key={slot} slot={slot} defaultItem={defaultItemData[slot]} index={index} />
       ))}
     </div>
-    </div>
+    
   );
 };
 

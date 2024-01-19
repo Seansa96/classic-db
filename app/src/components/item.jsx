@@ -3,7 +3,8 @@ import '../assets/WoW_icon.svg';
 import Gear from './gear';
 
 
-const Item = ({ slot, defaultItem }) => {
+
+const Item = ({ slot, defaultItem, index }) => {
     const [itemName, setItemName] = useState(defaultItem ? defaultItem.name : '');
     const [itemData, setItemData] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -66,11 +67,19 @@ const Item = ({ slot, defaultItem }) => {
         setIsEditing(false);
         console.log(itemData.icon);
     };
+
+    const getItemClass = (index) => {
+        if (index < 7) return "first-group-class";
+        if (index < 14) return "second-group-class";
+        return "third-group-class";
+      };
+      const itemClass = getItemClass(index);
     
 
     return (
-        <div className={`item-slot ${slot}`} onClick={handleItemClick}>
+        <div className={`${itemClass}`} onClick={handleItemClick}>
             {isEditing ? (
+                
                 <div>
                     <form onSubmit={handleSubmit}>
                         <input type="text"  onChange={handleInputChange} />

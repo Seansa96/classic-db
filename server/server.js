@@ -9,9 +9,10 @@ const crypto = require("crypto");
 require("dotenv").config();
 require("crypto").randomBytes(64).toString("hex");
 const { v4: uuidv4 } = require("uuid");
-const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes, Model } = require("sequelize");
 
 const PORT = process.env.PORT;
+const CONTAINERPORT = process.env.CONTAINERPORT;
 const PG_PWD = process.env.PG_PWD;
 const PG_USER = process.env.PG_USER;
 const app = express();
@@ -24,8 +25,37 @@ const classes = new Database.Classes();
 
 // DB URI Connection
 const sequelize = new Sequelize(
-  `postgres://${PG_USER}:${PG_PWD}@localhost:5432/classic_db`
+  `postgres://${PG_USER}:${PG_PWD}@localhost:${CONTAINERPORT}/classic_db`
 );
+const User = sequelize.define("User", {
+  // Model attributes are defined here
+  user_id: {
+    type: DataTypes.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    allowNull: false,
+    primaryKey: true,
+  },
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  password: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  }
+ },
+  {
+    tableName: "users"
+  });
+
+
+
 app.use(core());
 app.use(cookieParser());
 app.use(
@@ -73,19 +103,29 @@ app.get("/set-cookie", (req, res) => {
   const userID = uuidv4();
   req.session.userID = userID;
 
-  console.log(res.send("Cookie set"));
-  console.log(userID);
+  // console.log(res.send("Cookie set"));
+  // console.log(userID);
 });
 
-// async function testDatabaseConnection() {
-//     try {
-//         console.log(PG_USER, PG_PWD);
-//       await sequelize.authenticate();
-//       console.log('Connection has been established successfully.');
-//     } catch (error) {
-//       console.error('Unable to connect to the database:', error);
-//     }
-//   }
+async function testDatabaseConnection() {
+    try {
+        // console.log(PG_USER, PG_PWD);
+      await sequelize.authenticate();
+      console.log('Connection has been established successfully.');
+    } catch (error) {
+      console.error('Unable to connect to the database:', error);
+    }
+  }
   
-//   testDatabaseConnection();
+  testDatabaseConnection();
+async function testModel() {
+  try {
+    await User.sync({ alter: true });
+    console.log("The table for the User model was just (re)created!");
+  }
+  catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+}
+testModel();
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,0 +1,21 @@
+.item-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .first-group-class {
+    order: 1;
+    width: 45%;
+  }
+  
+  .second-group-class {
+    order: 2;
+    width: 45%;
+  }
+  
+  .third-group-class {
+    order: 3;
+    width: 50%;
+
+  }
